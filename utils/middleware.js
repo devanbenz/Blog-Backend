@@ -15,17 +15,25 @@ const errorHandler = (error, req, res, next) => {
 }
 
 const tokenExtractor = (req, res, next) => {
-    const header = req.headers.authorization
-    if(header !== undefined && header.startsWith('bearer ')) {
-      req.token = header.substring(7)
+    try{
+        const header = req.headers.authorization
+        if(header !== undefined && header.startsWith('bearer ')) {
+          req.token = header.substring(7)
+        }
+        next()
+    }catch(e){
+        next(e)
     }
-    next()
 }
 
 const userExtractor = async (req, res, next) => {
-    const tokenDecoder = jwt.verify(req.token, process.env.SECRET) 
-    req.user = await Users.findById(tokenDecoder.token) 
-    next()
+    try{
+        const tokenDecoder = jwt.verify(req.token, process.env.SECRET) 
+        req.user = await Users.findById(tokenDecoder.token) 
+        next()
+    }catch(e){
+        next(e)
+    }
 }
 
 module.exports = {
