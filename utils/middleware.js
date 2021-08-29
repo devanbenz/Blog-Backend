@@ -9,6 +9,8 @@ const errorHandler = (error, req, res, next) => {
         return res.status(401).json({err: 'Validation Error'})
     }else if(error.name === 'JsonWebTokenError'){
         return res.status(401).json({err: 'Invalid token'})
+    }else if(error.name === 'TypeError'){
+        return res.status(401).json({err: error.message})
     }
 
     next(error)
@@ -28,8 +30,10 @@ const tokenExtractor = (req, res, next) => {
 
 const userExtractor = async (req, res, next) => {
     try{
-        const tokenDecoder = jwt.verify(req.token, process.env.SECRET) 
-        req.user = await Users.findById(tokenDecoder.token) 
+        if(req.token){
+            const tokenDecoder = jwt.verify(req.token, process.env.SECRET) 
+            req.user = await Users.findById(tokenDecoder.token) 
+        }
         next()
     }catch(e){
         next(e)

@@ -1,9 +1,4 @@
 *node_modules*
 *package.lock.json*
 *yarn.lock*
-<<<<<<< HEAD
 .env
-=======
-
-.env
->>>>>>> e3d6b84880247a5326c9cfa6de8ecfb4b26a2ebc

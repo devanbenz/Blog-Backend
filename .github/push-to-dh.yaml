@@ -1,0 +1,29 @@
+name: Push docker image
+on: 
+  push:
+    branches:
+      - master
+jobs:
+  Push-Docker-Image:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - name: Checkout the repo
+        uses: actions/checkout@v2
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PW }}
+      - name: 🐳 Build and publish docker image to docker hub
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          ## Version with Thank after post 0.8.0 included
+          tags: weblwabl/blog-backend:latest
+          ## Version with Thank after post 0.9.0 included 
+          #tags: weblwabl/nginx_wp:2.0
+
+      - run: echo "This job's status is ${{ job.status }}."

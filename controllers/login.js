@@ -12,7 +12,7 @@ loginRouter.post('', async (req, res) => {
             return res.status(401).json({err:'username/password invalid'})
         }else {
             const token = jwt.sign({token:`${user._id}`}, process.env.SECRET)
-            return res.status(200).json({username: user.username, token})
+            return res.status(200).json({username: user.username, name: user.name, token})
         }
     }catch(e){
         console.log(e)
