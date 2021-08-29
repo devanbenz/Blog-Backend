@@ -25,15 +25,14 @@ jobs:
           tags: weblwabl/blog-backend:latest
           ## Version with Thank after post 0.9.0 included 
           #tags: weblwabl/nginx_wp:2.0
-
-      - run: docker build --tag blog-frontend:latest .
-      - name: Push to ECR
+      - name: Login to ECR
         id: ecr
-        uses: jwalton/gh-ecr-push@v1
+        uses: jwalton/gh-ecr-login@v1
         with:
           access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           region: us-east-1
-          local-image: blog-frontend:latest
-          image: blog-frontend:latest
-      - run: echo "This job's status is ${{ job.status }}."
+      - name: Push to ECR
+        run: |
+          docker tag my-image ${{ steps.ecr.outputs.account }}.dkr.ecr.us-east-1.amazonaws.com/blog-backend:latest
+          docker push ${{ steps.ecr.outputs.account }}.dkr.ecr.us-east-1.amazonaws.com/blog-backend:latest
