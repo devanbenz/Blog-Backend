@@ -25,6 +25,14 @@ jobs:
           tags: weblwabl/blog-backend:latest
           ## Version with Thank after post 0.9.0 included 
           #tags: weblwabl/nginx_wp:2.0
+      - name: Create ECR repo
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          aws ecr create-repository \
+          --repository-name blog-backend \
+          --region us-east-1
       - name: Login to ECR
         id: ecr
         uses: jwalton/gh-ecr-login@v1
