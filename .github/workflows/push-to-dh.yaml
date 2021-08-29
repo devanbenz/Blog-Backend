@@ -34,5 +34,5 @@ jobs:
           region: us-east-1
       - name: Push to ECR
         run: |
-          docker tag blog-backend ${{ steps.ecr.outputs.account }}.dkr.ecr.us-east-1.amazonaws.com/blog-backend:latest
+          docker tag weblwabl/blog-backend:latest ${{ steps.ecr.outputs.account }}.dkr.ecr.us-east-1.amazonaws.com/blog-backend:latest
           docker push ${{ steps.ecr.outputs.account }}.dkr.ecr.us-east-1.amazonaws.com/blog-backend:latest
