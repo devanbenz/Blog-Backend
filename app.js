@@ -24,11 +24,11 @@ const logger = require('./utils/logger')
         logger.error(e)
     }
 })()
-app.use(express.static('build'))
 
 app.use(cors())
 app.use(express.json())
 
+app.use(express.static('build'))
 app.use('/api/users', userRouter)
 app.use('/api/login', loginRouter)
 
